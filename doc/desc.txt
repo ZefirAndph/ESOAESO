@@ -1,9 +1,104 @@
 /script d(GetCurrentZoneHouseId())
-/script JumpToSpecificHouse("@Valinn1", 70)  -- Valinn Sklad
+/script RequestJumpToHouse(ID)
+/script JumpToSpecificHouse("@Majitel", ID)
 
-38 - Daggerfall overlook
-42 - Saint delin
-43 - Amaya lake lodge
-44 - AldVelothi (Valin - Viktoriánská ulicka)
-47 - Coldharbor
-70 - Hall of Lunar Champion
+
+|  ID  |  Název                  |
+|-----|--------------------------|
+|  1  | Mara's Kiss Public House |
+|  2  | The Rosy Lion |
+|  3  | The Ebony Flask Inn Room |
+|  4  | Barbed Hook Private Room |
+|  5  | Sisters of the Sands Apartment |
+|  6  | Flaming Nix Deluxe Garret |
+|  7  | Black Vine Villa |
+|  8  | Cliffshade |
+|  9  | Mathiisen Manor |
+|  10  | Humblemud |
+|  11  | The Ample Domicile |
+|  12  | Stay-Moist Mansion |
+|  13  | Snugpod |
+|  14  | Bouldertree Refuge |
+|  15  | The Gorinir Estate |
+|  16  | Captain Margaux's Place |
+|  17  | Ravenhurst |
+|  18  | Gardner House |
+|  19  | Kragenhome |
+|  20  | Velothi Reverie |
+|  21  | Quondam Indorilia |
+|  22  | Moonmirth House |
+|  23  | Sleek Creek House |
+|  24  | Dawnshadow |
+|  25  | Cyrodilic Jungle House |
+|  26  | Domus Phrasticus |
+|  27  | Strident Springs Demesne |
+|  28  | Autumn's-Gate |
+|  29  | Grymhart's Woe |
+|  30  | Old Mistveil Manor |
+|  31  | Hammerdeath Bungalow |
+|  32  | Mournoth Keep |
+|  33  | Forsaken Stronghold" |
+|  34  | Twin Arches |
+|  35  | House of the Silent Magnifico |
+|  36  | Hunding's Palatial Hall |
+|  37  | Serenity Falls Estate |
+|  38  | Daggerfall Overlook |
+|  39  | Ebonheart Chateau |
+|  40  | Grand Topal Hideaway |
+|  41  | Earthtear Cavern |
+|  42  | Saint Delyn Penthouse |
+|  43  | Amaya Lake Lodge |
+|  44  | Ald Velothi Harbor House |
+|  45  | Tel Galen |
+|  46  | Linchal Grand Manor |
+|  47  | Coldharbour Surreal Estate |
+|  48  | Hakkvild's High Hall |
+|  49  | Exorcised Coven Cottage |
+|  50  | *omitted* |
+|  51  | *omitted* |
+|  52  | *omitted* |
+|  53  | omitted |
+|  54  | Pariah's Pinnacle" |
+|  55  | The Orbservatory Prior" |
+|  56  | The Erstwhile Sanctuary |
+|  57  | Princely Dawnlight Palace |
+|  58  | Golden Gryphon Garret |
+|  59  | Alinor Crest Townhouse |
+|  60  | Colossal Aldmeri Grotto |
+|  61  | Hunter's Glade |
+|  62  | Grand Psijic Villa |
+|  63  | Enchanted Snow Globe Home |
+|  64  | Lakemire Xanmeer Manor |
+|  65  | Frostvault Chasm |
+|  66  | Elinhir Private Arena |
+|  67  | *omitted* |
+|  68  | Sugar Bowl Suite |
+|  69  | Jode's Embrace |
+|  70  | Hall of Lunar Champion |
+|  71  | Moon-Shugar Meadow |
+|  72  | Wraithhome |
+|  73  | Lucky Cat Landing |
+|  74  | Potentate's Retreat |
+|  75  | Forgemasters Falls |
+|  76  | Thieves' Oasis |
+|  77  | Snowmelt Suite |
+|  78  | Proudspire Manor |
+|  79  | Bastion Sanguinaris |
+|  80  | Stillwaters Retreat |
+|  81  | Antiquarian's Alpine Gallery |
+|  82  | Shalidor's Shrouded Realm |
+|  83  | Stone Eagle Aerie |
+|  84  | *omitted* |
+|  85  | Kushalit Sanctuary |
+|  86  | Varlaisvea Ayleid Ruins |
+|  87  | Pilgrim's Rest |
+|  88  | Water's Edge |
+|  89  | Pantherfang Chapel |
+|  90  | Doomchar Plateau |
+|  91  | Sweetwater Cascades |
+|  92  | Ossa Accentium |
+|  93  | Agony's Accent |
+|  94  | Seaveil Spire |
+|  95  | Ancient Anchor Berth |
+|  96  | Highhallow Hold |
+|  97  | *placehold* |
