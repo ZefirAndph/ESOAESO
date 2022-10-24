@@ -1,6 +1,8 @@
-/script d(GetCurrentZoneHouseId())
-/script RequestJumpToHouse(ID)
-/script JumpToSpecificHouse("@Majitel", ID)
+|  Popis  |  CMD  | 
+|---------|-------|
+| Zjistí ID domu ve kterém jsme | /script d(GetCurrentZoneHouseId()) |
+| Vyvolá port do vlastního dolu (i preview) | /script RequestJumpToHouse(ID) |
+| Vyvolá port do domu jiného majitele (jen zakoupený s povolenými právy) | /script JumpToSpecificHouse("@Majitel", ID) |
 
 
 |  ID  |  Název                  |
