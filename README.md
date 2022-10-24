@@ -1,2 +1,1 @@
-# ESOAESO
-Elder scrolls online AddOn - EarthSea Order
+# EarthSea Order Addon #
