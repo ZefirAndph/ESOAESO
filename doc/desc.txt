@@ -1,0 +1,9 @@
+/script d(GetCurrentZoneHouseId())
+/script JumpToSpecificHouse("@Valinn1", 70)  -- Valinn Sklad
+
+38 - Daggerfall overlook
+42 - Saint delin
+43 - Amaya lake lodge
+44 - AldVelothi (Valin - Viktoriánská ulicka)
+47 - Coldharbor
+70 - Hall of Lunar Champion
