@@ -3,6 +3,52 @@ EAT.name = "EarthSea Order Housing"
 EAT.debugstate = false
 EAT.UISTATE = false
 
+function EAT.ltrim(s)
+	return s:match'^%s*(.*)'
+end
+
+function EAT.Split(str, sep) 
+	local result = {} 
+	local regex = ("([^%s]+)"):format(sep) 
+	for each in str:gmatch(regex) do 
+		table.insert(result, each) 
+	end	
+	return result 
+end
+
+function EAT.LoadHouses() 
+	local retv = {}
+	for i=1,GetNumGuildMembers(736992),1 do 
+		local name, note, rank, status, off = GetGuildMemberInfo(736992,i) 
+		if note == "" then note = nil end 
+		if note then retv[#retv+1] = {pl=name, houses=note} end
+	end
+	return retv
+end
+
+function EAT.TranslateHouse(nstr) local lines = EAT.Split(nstr, "\n") local retv = {} for i=1,#lines,1 do local pars = EAT.Split(lines[i], ":") retv[#retv+1] = {showname=pars[1], housename=EAT.ltrim(pars[2])} end return retv end
+
+function EAT.SearchID(name)
+	for key,value in pairs(HOUSES) do 
+		if HOUSES[key] == name then return key end
+	end
+	return nil
+end
+
+function EAT.GetKnownHomes()
+	local retv = {}
+	local hses = EAT.LoadHouses() 
+	for i=1,#hses,1 do 
+		local homes = EAT.TranslateHouse(hses[i].houses)
+		for o=1,#homes,1 do
+			retv[#retv+1] = {owner=hses[i].pl, name=homes[o].showname, houseid=EAT.SearchID(homes[o].housename)}
+		end
+	end
+	return retv
+end
+
+
+--- OLD ADDON BEGIN ---
 function dd(msg)
 	if EAT.debugstate == true then
 		d(msg)
@@ -43,18 +89,6 @@ function EAT.VyrobCudle()
 		btn.owner = LINKHOUSE[itr].owner
 		btn.houseid = LINKHOUSE[itr].houseid
 		btn.tooltiptext = LINKHOUSE[itr].name
-	--	local ctrl = GetControl("EATPorter")
-	--	LINKHOUSE[itr].btn = WINDOW_MANAGER:CreateControl(name, EATMAIN, CT_BUTTON)
-	--
-	--	LINKHOUSE[itr].btn:SetEdgeColor(0.4,0.4,0.4)
-	--	LINKHOUSE[itr].btn:SetCenterColor(0.1,0.1,0.1)
-	--	LINKHOUSE[itr].btn:SetAnchor(TOPLEFT, tlw, TOPLEFT, 0, 0)
-	--	LINKHOUSE[itr].btn:SetDimensions(450,600)
-	--	LINKHOUSE[itr].btn:SetAlpha(1)
-	--	LINKHOUSE[itr].btn:SetDrawLayer(0)
-	--	local control = GetControl("EATPorter"):CreateControl(name, CL_BUTTON)
-	--	control.SetAnchor(TOPRIGHT, GetControl("EATPorter"), TOPLEFT, HELP_ICON_SIZE, 0)
-  	--	dd(LINKHOUSE[itr].name)
 	end
 
 end
@@ -91,8 +125,37 @@ function EAT.OnAddOnLoaded(event, addonName)
 		EVENT_MANAGER:UnregisterForEvent(EAT.name, EVENT_ADD_ON_LOADED)
 	end
 end
-
+function EAT.AddButton(title, owner, houseId)
+	d("Adding button: " ..title.." as "..owner.."&"..houseId)
+	local ctrl = GetControl("EATPorter")
+	ctrl:AddChild(atNode, nbtn, childIndent)
+end
+function EAT.UPDATE()
+	-- clear button then add new 
+	local data = EAT.GetKnownHomes()
+	for i=1,#data,1 do 
+		EAT.AddButton(data[i].name, data[i].owner, data[i].houseid)
+	end
+end
 
 
 EVENT_MANAGER:RegisterForEvent(EAT.name, EVENT_ADD_ON_LOADED, EAT.OnAddOnLoaded)
 EVENT_MANAGER:RegisterForEvent(EAT.name, EVENT_GAME_CAMERA_UI_MODE_CHANGED, EAT.ShowUIChange)
+
+---- TEST ZONE --- 
+function EAT.DrainNODES()
+	EAT.Data = ZO_SavedVars:NewAccountWide("EATNodesData", nil, nil, nil)
+	local totalNodes = GetNumFastTravelNodes()
+	d("TotalNodes: "..totalNodes)
+	local i = 1
+	while i <= totalNodes do
+		EATData = GetFastTravelNodeInfo(i)
+		i = i + 1
+	end
+
+end
+	
+
+SLASH_COMMANDS['/eatdrain'] = EAT.DrainNODES
+
+SLASH_COMMANDS['/eatloadhouses'] = EAT.GetKnownHomes
