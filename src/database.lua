@@ -2,7 +2,7 @@ LINKHOUSE = {
 	{name = "Hospoda", owner="@Valinn1", houseid=18},
 	{name = "Upírí hrad", owner="@Zefir.Andph", houseid=38},
 	{name = "Voorahova vila", owner="@Maane1866", houseid=44},
-	{name = "Beanin Bungalow", owner="@barburyba", houseid=49},
+	{name = "Beanin Bungalow", owner="@Fazolie", houseid=49},
 }
 HOUSES = {
 	["1"] = "Mara's Kiss Public House",
