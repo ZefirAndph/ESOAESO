@@ -1,0 +1,110 @@
+/script d(GetCurrentZoneHouseId())
+/script JumpToSpecificHouse("@Valinn1", 70)  -- Valinn Sklad
+/script RequestJumpToHouse(92)
+
+38 - Daggerfall overlook
+42 - Saint delin
+43 - Amaya lake lodge
+44 - AldVelothi (Valin - Viktoriánská ulicka)
+47 - Coldharbor
+70 - Hall of Lunar Champion
+
+/script d(GetGuildName(736992)) - get name of earthsea order
+
+/script d(IsPlayerInGuild(736992)) - allow our UI?
+
+/script for key, value in pairs( ) do d(key) end
+
+SetGuildMemberNote(*integer* _guildId_, *luaindex* _memberIndex_, *string* _note_)
+
+/script d(GetGuildRecruitmentInfo(736992))
+
+/script for i=1,GetNumGuildMembers(736992),1 do d(GetGuildMemberInfo(736992,i)) end
+** _Returns:
+	_name_
+	_note_
+	_rankIndex_
+	_playerStatus_
+	_secsSinceLogoff_
+
+/script for i=1,GetNumGuildMembers(736992),1 do d(GetGuildMemberCharacterInfo(736992,i)) end
+** _Returns:
+	_hasCharacter_
+	_characterName_
+	_zoneName_
+	_classType_
+	_alliance_
+	_level_
+	_championRank_
+	_zoneId_
+	_consoleId_
+
+
+Jméno sdíleného domu do guild member info
+
+/script for i=1,GetNumGuildMembers(736992),1 do d(GetGuildMemberInfo(736992,i)) end
+
+/script function EAT.Split(str, sep) local result = {} local regex = ("([^%s]+)"):format(sep) for each in str:gmatch(regex) do table.insert(result, each) end	return result end
+/script local testy = {} for i=1,GetNumGuildMembers(736992),1 do local name, note, rank, status, off = GetGuildMemberInfo(736992,i) if note == "" then note = nil end if note then local hname = EAT.Split(note, "\n") for o=1,#hname,1 do local hses = EAT.Split(hname[o], ": ") for p=1,#hses,1 do local tmp = {owner=name, housename=hses[p][2], name=hses[p][1]} testy[#testy+1] = tmp end end end end d(testy)
+/script local output = {} for i=1,GetNumGuildMembers(736992),1 do local name, note, rank, status, off = GetGuildMemberInfo(736992,i) if note == "" then note = nil end if note then d(name..":"..note) end end
+
+
+
+function EAT.Split(str, sep) local result = {} local regex = ("([^%s]+)"):format(sep) for each in str:gmatch(regex) do table.insert(result, each) end	return result end
+
+/script function EAT.LoadHouses() local retv = {} for i=1,GetNumGuildMembers(736992),1 do local name, note, rank, status, off = GetGuildMemberInfo(736992,i) if note == "" then note = nil end if note then retv[#retv+1] = {pl=name, houses=note} end end return retv end
+function EAT.LoadHouses() 
+	local retv = {}
+	for i=1,GetNumGuildMembers(736992),1 do 
+		local name, note, rank, status, off = GetGuildMemberInfo(736992,i) 
+		if note == "" then note = nil end 
+		if note then retv[#retv+1] = {pl=name, houses=note} end
+	end
+	return retv
+end
+
+/script function EAT.TranslateHouse(nstr) local lines = EAT.Split(nstr, "\n") local retv = {} for i=1,#lines,1 do local pars = EAT.Split(lines[i], ":") retv[#retv+1] = {showname=pars[1], housename=EAT.ltrim(pars[2])} end return retv end
+function EAT.TranslateHouse(nstr)
+	local lines = EAT.Split(nstr, "\n")
+	local retv = {}
+	for i=1,#lines,1 do
+		local pars = EAT.Split(lines[i], ": ")
+		retv[#retv+1] = {showname=pars[1], EAT.ltrim(housename=pars[2])}
+	end
+	return retv
+end
+
+/script function EAT.GetKnownHomes() local retv = {} local hses = EAT.LoadHouses()  for i=1,#hses,1 do  local homes = EAT.TranslateHouse(hses[i].houses) for o=1,#homes,1 do retv[#retv+1] = {account=hses[i].pl, nazev=homes[o].showname, house=EAT.SearchID(homes[o].housename)} end end return retv end
+
+function EAT.GetKnownHomes()
+	local retv = {}
+	local hses = EAT.LoadHouses() 
+	for i=1,#hses,1 do 
+		local homes = EAT.TranslateHouse(hses[i].houses)
+		for o=1,#homes,1 do
+			retv[#retv+1] = {owner=hses[i].pl, name=homes[o].showname, houseid=EAT.SearchID(homes[o].housename)}
+		end
+	end
+	return retv
+end
+/script local hses = EAT.LoadHouses() d("Found ".. #hses .." users with house.") for i=1,#hses,1 do d(hses[i].houses) end
+
+function EAT.GetHouseID(name)
+	for i=1,#HOUSES
+end
+
+/script function EAT.ltrim(s) return s:match'^%s*(.*)' end
+function EAT.ltrim(s)
+	return s:match'^%s*(.*)'
+end
+  
+
+/script function EAT.SearchID(name)	for key,value in pairs(HOUSES) do if HOUSES[key] == name then return key end end return nil end
+
+
+function EAT.SearchID(name)
+	for key,value in pairs(HOUSES) do 
+		if HOUSES[key] == name then return key end
+	end
+	return nil
+end
