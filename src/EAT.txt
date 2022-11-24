@@ -1,0 +1,11 @@
+## Title: EarthSea order housing port
+## Description: Allow travel to Roleplay houses of Earthsea order
+## Version: 0.0.1
+## Author: Zefir.Andph
+## APIVersion: 101035
+## SavedVariables: EATData
+
+EAT.xml
+database.lua
+EAT.lua
+
