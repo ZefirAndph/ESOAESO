@@ -9,3 +9,5 @@ AddOn guildy EarthSea Order, který umožňuje teleportaci do vybraných RP síd
 1. Umístit stažený **updater.exe** do vytvořené složky a spustit.
 1. Hotovo!
 
+## Update ##
+Pro update stačí kdykoliv znovu spustit **update.exe**
