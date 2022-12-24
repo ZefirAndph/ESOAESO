@@ -139,10 +139,16 @@ function EAT.UPDATE()
 end
 
 
-EVENT_MANAGER:RegisterForEvent(EAT.name, EVENT_ADD_ON_LOADED, EAT.OnAddOnLoaded)
-EVENT_MANAGER:RegisterForEvent(EAT.name, EVENT_GAME_CAMERA_UI_MODE_CHANGED, EAT.ShowUIChange)
 
----- TEST ZONE --- 
+function EAT.RollDice(args)
+	if args == "" then args = 20 end
+	local value = math.max(1, math.floor((math.random()*args)+0.5))
+	d(zo_strformat("|H0:EAT:Roll:<<1>>:<<2>>:<<3>>|h[Rolled d<<1>> with result <<2>>]|h", args, value, GetTimeStamp()))
+	--return value;
+end
+-- /script function EAT.RollDice(args)	local value = math.max(1, math.floor((math.random()*args)+0.5)) return value end
+
+----- TEST ENVIRONMENT -----
 function EAT.DrainNODES()
 	EAT.Data = ZO_SavedVars:NewAccountWide("EATNodesData", nil, nil, nil)
 	local totalNodes = GetNumFastTravelNodes()
@@ -154,8 +160,56 @@ function EAT.DrainNODES()
 	end
 
 end
-	
 
-SLASH_COMMANDS['/eatdrain'] = EAT.DrainNODES
+----- HANDLE EAT LINKS -----
+function EAT.HandleClickEvent(rawLink, mouseButton, linkText, linkStyle, linkType, ...)
+	if linkType == "EAT" then
+		local subType = ...
+		if subType == "Roll" then
+			local _, dice, val, time = ...
+			-- Handle for foll links
+			if tonumber(time) < (GetTimeStamp()) then
+				d("Roll Verified!")
+			else
+				d("Cannot verify this roll!")
+			end
+			return true
+		end
+		if subType == "JumpToHouse" then
+			-- jump links
+			local _, owner, hid = ...
+			d("Teleport do domu |cffff00"..linkText.."|r")
 
-SLASH_COMMANDS['/eatloadhouses'] = EAT.GetKnownHomes
+			if GetDisplayName() == owner then
+				RequestJumpToHouse(hid)
+			else
+				JumpToSpecificHouse(owner, hid)
+			end
+			return true
+		end
+
+		d("Nelze rozeznat odkaz EAT. Zkuste EAT aktualizovat.")
+		return true
+	end
+end
+  
+LINK_HANDLER:RegisterCallback(LINK_HANDLER.LINK_MOUSE_UP_EVENT, EAT.HandleClickEvent) --as for Update 4 default ingame GUI uses this event
+LINK_HANDLER:RegisterCallback(LINK_HANDLER.LINK_CLICKED_EVENT, EAT.HandleClickEvent)  --this event still can be used, so the best practise is registering both events
+
+EVENT_MANAGER:RegisterForEvent(EAT.name, EVENT_ADD_ON_LOADED, EAT.OnAddOnLoaded)
+EVENT_MANAGER:RegisterForEvent(EAT.name, EVENT_GAME_CAMERA_UI_MODE_CHANGED, EAT.ShowUIChange)
+
+----- CHAT COMMANDS -----
+SLASH_COMMANDS['/eatupdate'] = EAT.UPDATE -- Update House porting buttons
+
+SLASH_COMMANDS['/eatdrain'] = EAT.DrainNODES -- test loading Travel Nodes
+
+if nil == SLASH_COMMANDS[ "/roll" ] then 
+	SLASH_COMMANDS[ "/roll" ] = function( args ) EAT.RollDice( args ) end
+elseif nil == SLASH_COMMANDS[ "/eroll" ] then
+	SLASH_COMMANDS[ "/eroll" ] = function( args ) EAT.RollDice( args ) end
+else
+	SLASH_COMMANDS[ "/eatroll" ] = function( args ) EAT.RollDice( args ) end
+end
+
+
