@@ -164,32 +164,37 @@ end
 ----- HANDLE EAT LINKS -----
 function EAT.HandleClickEvent(rawLink, mouseButton, linkText, linkStyle, linkType, ...)
 	if linkType == "EAT" then
-		local subType = ...
-		if subType == "Roll" then
-			local _, dice, val, time = ...
-			-- Handle for foll links
-			if tonumber(time) < (GetTimeStamp()) then
-				d("Roll Verified!")
-			else
-				d("Cannot verify this roll!")
+		if mouseButton == 2 then
+			CHAT_SYSTEM.textEntry:InsertLink(rawLink)
+			return true
+		else
+			local subType = ...
+			if subType == "Roll" then
+				local _, dice, val, time = ...
+				-- Handle for foll links
+				if tonumber(time) < (GetTimeStamp()) then
+					d("Roll Verified!")
+				else
+					d("Cannot verify this roll!")
+				end
+				return true
 			end
+			if subType == "JumpToHouse" then
+				-- jump links
+				local _, owner, hid = ...
+				d("Teleport do domu: |cffff00"..rawLink.."|r")
+
+				if GetDisplayName() == owner then
+					RequestJumpToHouse(hid)
+				else
+					JumpToSpecificHouse(owner, hid)
+				end
+				return true
+			end
+
+			d("Nelze rozeznat odkaz EAT. Zkuste EAT aktualizovat.")
 			return true
 		end
-		if subType == "JumpToHouse" then
-			-- jump links
-			local _, owner, hid = ...
-			d("Teleport do domu |cffff00"..linkText.."|r")
-
-			if GetDisplayName() == owner then
-				RequestJumpToHouse(hid)
-			else
-				JumpToSpecificHouse(owner, hid)
-			end
-			return true
-		end
-
-		d("Nelze rozeznat odkaz EAT. Zkuste EAT aktualizovat.")
-		return true
 	end
 end
   
